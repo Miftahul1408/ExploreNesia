@@ -1151,6 +1151,51 @@
                 </p>
             </div>
         </section>
+        <!-- Section: Login (contoh singkat) -->
+<section id="login" class="section">
+  <div class="container">
+    <h3>Masuk</h3>
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Kata sandi">
+    <button onclick="loginApp()">Masuk</button>
+    <p>Belum punya akun? <a href="#" onclick="showSection('register')">Daftar</a></p>
+  </div>
+</section>
+
+<!-- Section: Register -->
+<section id="register" class="section hidden">
+  <div class="container">
+    <div class="back-button" onclick="showSection('login')">← Kembali</div>
+
+    <h3>Daftar Akun Baru</h3>
+
+    <!-- Gunakan <form> supaya behavior keyboard/enter konsisten -->
+    <form id="registerForm" onsubmit="return handleRegister(event)">
+      <div class="mb-2">
+        <label for="regName">Nama Lengkap</label>
+        <input type="text" id="regName" required placeholder="Nama lengkap">
+      </div>
+
+      <div class="mb-2">
+        <label for="regEmail">Email</label>
+        <input type="email" id="regEmail" required placeholder="email@contoh.com">
+      </div>
+
+      <div class="mb-2">
+        <label for="regPassword">Kata Sandi</label>
+        <input type="password" id="regPassword" required minlength="6" placeholder="Minimal 6 karakter">
+      </div>
+
+      <div class="mb-2">
+        <label for="regPassword2">Ulangi Kata Sandi</label>
+        <input type="password" id="regPassword2" required placeholder="Ulangi kata sandi">
+      </div>
+
+      <button type="submit" class="btn btn-success">Daftar</button>
+    </form>
+  </div>
+</section>
+
         <!-- Section: Register -->
         <section id="register" class="section hidden">
             <div class="container mt-5 pt-4">
