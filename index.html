@@ -1671,6 +1671,30 @@
                 </div>
             `).join('');
         }
+function loginApp() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass = document.getElementById('loginPassword').value.trim();
+
+    if (!email || !pass) {
+        alert("Mohon isi email dan kata sandi terlebih dahulu.");
+        return;
+    }
+
+    // Akun contoh (bebas kamu ganti)
+    const validEmail = "user@mail.com";
+    const validPass = "123456";
+
+    if (email === validEmail && pass === validPass) {
+        alert("Login berhasil! Selamat datang di ExploreNesia.");
+        showSection('account');
+    } else {
+        alert("Login gagal! Email atau kata sandi salah.");
+    }
+}
+function logoutApp() {
+    alert("Anda telah keluar dari aplikasi.");
+    showSection('login');   // ⬅ otomatis kembali ke halaman login
+}
 
         // View Detail Functions
         function viewDestination(id) {
