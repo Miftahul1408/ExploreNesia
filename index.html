@@ -1149,9 +1149,45 @@
                 <p class="text-center mt-3 text-muted">
                     Belum punya akun? <a href="#" onclick="showSection('register')">Daftar</a>
                 </p>
+            </div>
+        </section>
+        <!-- Section: Register -->
+        <section id="register" class="section hidden">
+            <div class="container mt-5 pt-4">
+
+                <h3 class="fw-bold text-center mb-4">Daftar Akun Baru</h3>
+
+                <div class="mb-3">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" id="regName" class="form-control" placeholder="Masukkan nama lengkap">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="regEmail" class="form-control" placeholder="Masukkan email">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Kata Sandi</label>
+                    <input type="password" id="regPassword" class="form-control" placeholder="Masukkan kata sandi">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Ulangi Kata Sandi</label>
+                    <input type="password" id="regPassword2" class="form-control" placeholder="Ulangi kata sandi">
+                </div>
+
+                <button class="btn btn-success w-100 mt-3" onclick="registerApp()">
+                    Daftar
+                </button>
+
+                <p class="text-center mt-3 text-muted">
+                    Sudah punya akun? <a href="#" onclick="showSection('login')">Masuk</a>
+                </p>
 
             </div>
         </section>
+
 
 
 
@@ -1725,6 +1761,29 @@ function loginApp() {
 function logoutApp() {
     alert("Anda telah keluar dari aplikasi.");
     showSection('login');   // ⬅ otomatis kembali ke halaman login
+}
+function registerApp() {
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const pass = document.getElementById('regPassword').value.trim();
+    const pass2 = document.getElementById('regPassword2').value.trim();
+
+    if (!name || !email || !pass || !pass2) {
+        alert("Semua kolom wajib diisi!");
+        return;
+    }
+
+    if (pass !== pass2) {
+        alert("Kata sandi tidak cocok, silakan periksa kembali.");
+        return;
+    }
+
+    alert("Pendaftaran berhasil! Silakan login dengan akun Anda.");
+    showSection('login');
+}
+function showSection(id) {
+    document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
 }
 
         // View Detail Functions
