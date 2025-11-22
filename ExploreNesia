@@ -1,0 +1,2306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#239BA7">
+    <meta name="description" content="Platform pemesanan tour guide dan tiket wisata terpadu di Indonesia">
+    <title>ExploreNesia - Jelajahi Nusantara</title>
+    <link rel="icon" type="image/png" href="icon/logo-192.png" />
+    <link rel="icon" type="image/x-icon" href="/ikon/tanpa ltar blkng.png" />
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="manifest" href="#" id="manifest-placeholder">
+    
+    <style>
+        :root {
+            --primary-color: #239BA7;
+            --secondary-color: #E2725B;
+            --gold-color: #D4AF37;
+            --dark-color: #2C3E50;
+            --light-bg: #F8F9FA;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--light-bg);
+            padding-bottom: 70px;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color), #1a7580);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 12px 45px 12px 45px;
+            border: none;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-size: 0.95rem;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+        }
+        
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            margin-top: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+        }
+        
+        .suggestion-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+        }
+        
+        .suggestion-item:hover {
+            background: var(--light-bg);
+        }
+        
+        /* Slider/Carousel */
+        .promo-slider {
+            margin: 20px 0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .promo-slide {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            border-radius: 15px;
+        }
+        
+        .promo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 20px;
+            color: white;
+        }
+        
+        /* Category Icons */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .category-item {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .category-item:active {
+            transform: scale(0.95);
+        }
+        
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), #1a7580);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 10px rgba(35, 155, 167, 0.3);
+        }
+        
+        .category-label {
+            font-size: 0.75rem;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        
+        /* Cards */
+        .destination-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .destination-card:active {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .destination-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .destination-content {
+            padding: 15px;
+        }
+        
+        .destination-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 8px;
+        }
+        
+        .destination-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .price-tag {
+            color: var(--secondary-color);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .rating {
+            color: var(--gold-color);
+        }
+        
+        /* Guide Card */
+        .guide-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            cursor: pointer;
+        }
+        
+        .guide-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .guide-info {
+            flex: 1;
+        }
+        
+        .guide-name {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--dark-color);
+        }
+        
+        .guide-badge {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.2s;
+            text-decoration: none;
+            color: #666;
+        }
+        
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+        
+        .nav-item i {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 3px;
+        }
+        
+        .nav-item span {
+            font-size: 0.7rem;
+            display: block;
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+        
+        /* Buttons */
+        .btn-primary-custom {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn-primary-custom:hover {
+            background: #1a7580;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(35, 155, 167, 0.4);
+        }
+        
+        .btn-secondary-custom {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+        
+        /* Onboarding */
+        .onboarding-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .onboarding-icon {
+            font-size: 5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .onboarding-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+        
+        .onboarding-text {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .onboarding-dots {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+        
+        .dot.active {
+            background: var(--primary-color);
+            width: 30px;
+            border-radius: 5px;
+        }
+        
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .filter-chips {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 5px 0;
+        }
+        
+        .filter-chip {
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: var(--light-bg);
+            border: 2px solid transparent;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-chip.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        /* Detail Page */
+        .detail-hero {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        .detail-content {
+            padding: 20px;
+            background: white;
+            margin-top: -20px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+        
+        .facility-icons {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .facility-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .facility-item i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .empty-text {
+            color: #999;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--light-bg);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Sections */
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        /* Itinerary Builder */
+        .itinerary-day {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .activity-item {
+            background: var(--light-bg);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Ticket Card */
+        .ticket-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            border: 2px dashed var(--primary-color);
+        }
+        
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            background: #f0f0f0;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+        
+        /* Article Card */
+        .article-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            cursor: pointer;
+        }
+        
+        .article-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .article-content {
+            padding: 15px;
+        }
+        
+        /* Video Card */
+        .video-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            cursor: pointer;
+        }
+        
+        .video-thumbnail {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            position: relative;
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(226, 114, 91, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+        
+        /* Responsive iframe */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Checkout */
+        .checkout-summary {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .summary-row.total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            padding-top: 10px;
+            border-top: 2px solid var(--light-bg);
+        }
+        
+        /* Form */
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(35, 155, 167, 0.25);
+        }
+        
+        /* Success Animation */
+        .success-animation {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 20px;
+            animation: successPop 0.5s ease-out;
+        }
+        
+        @keyframes successPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Onboarding Screen -->
+    <div id="onboarding" class="onboarding-screen">
+        <div class="onboarding-icon">
+            <i class="bi bi-compass"></i>
+        </div>
+        <h1 class="onboarding-title">Selamat Datang di ExploreNesia</h1>
+        <p class="onboarding-text">Jelajahi keindahan Nusantara dengan guide lokal terpercaya dan pemesanan tiket yang mudah</p>
+        <div class="onboarding-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <button class="btn-primary-custom" onclick="nextOnboarding()">Selanjutnya</button>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="hidden">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="container">
+                <div class="logo-text">
+                    <img src="icon/logo-512.png" alt="ExploreNesia Logo" class="logo-img">
+                    <span class="logo-title">ExploreNesia</span>
+                </div>
+            </div>
+        </header>
+    </div>
+    <head>
+    <style>
+        .logo-img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+
+        <!-- Section: Home -->
+        <section id="home" class="section active">
+            <div class="container">
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <i class="bi bi-search search-icon"></i>
+                    <input type="text" class="search-bar" placeholder="Cari destinasi, kota, atau guide..." id="searchInput">
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+
+                <!-- Promo Slider -->
+                <div id="promoCarousel" class="carousel slide promo-slider" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="promo-slide" style="background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwTEY4YpF0kvOvb2HG-_P-tV2oPYP4Dqr_cUUombaLtZwRGtnV6A1GHkqpngJFRmB9Q3YFdxHGExfk1VCGpO0y1PmzjVLjG-b_jjoLx_ytcclZWu3bVwcmCpsisNWar3hj2hIUb7g9S3gq/s1600/gunung-bromo.jpg');">
+                                <div class="promo-overlay">
+                                    <h5>Diskon 30% Tiket Bromo</h5>
+                                    <small>Berlaku hingga akhir bulan</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="promo-slide" style="background-image: url('https://www.balipost.com/wp-content/uploads/2024/07/balipostcom_sejumlah-festival-seni-budaya-digelar-di-bali-catat-jadwalnya_01.jpg');">
+                                <div class="promo-overlay">
+                                    <h5>Festival Budaya Bali</h5>
+                                    <small>19-25 November 2025</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="promo-slide" style="background-image: url('https://img.okezone.com/content/2023/01/09/408/2743017/5-wisata-hidden-gem-di-lombok-cocok-untuk-healing-AOrXSepBo0.jpg');">
+                                <div class="promo-overlay">
+                                    <h5>Hidden Gems Lombok</h5>
+                                    <small>Destinasi rekomendasi minggu ini</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Icons -->
+                <h5 class="mt-4 mb-3 fw-bold">Kategori Populer</h5>
+                <div class="category-grid">
+                    <div class="category-item" onclick="filterCategory('pantai')">
+                        <div class="category-icon"><i class="bi bi-water"></i></div>
+                        <div class="category-label">Pantai</div>
+                    </div>
+                    <div class="category-item" onclick="filterCategory('gunung')">
+                        <div class="category-icon"><i class="bi bi-signpost-split"></i></div>
+                        <div class="category-label">Gunung</div>
+                    </div>
+                    <div class="category-item" onclick="filterCategory('budaya')">
+                        <div class="category-icon"><i class="bi bi-bank"></i></div>
+                        <div class="category-label">Budaya</div>
+                    </div>
+                    <div class="category-item" onclick="filterCategory('kuliner')">
+                        <div class="category-icon"><i class="bi bi-cup-hot"></i></div>
+                        <div class="category-label">Kuliner</div>
+                    </div>
+                    <div class="category-item" onclick="filterCategory('city')">
+                        <div class="category-icon"><i class="bi bi-buildings"></i></div>
+                        <div class="category-label">City Tour</div>
+                    </div>
+                    <div class="category-item" onclick="filterCategory('adventure')">
+                        <div class="category-icon"><i class="bi bi-bicycle"></i></div>
+                        <div class="category-label">Adventure</div>
+                    </div>
+                    <div class="category-item" onclick="filterCategory('family')">
+                        <div class="category-icon"><i class="bi bi-people"></i></div>
+                        <div class="category-label">Family</div>
+                    </div>
+                    <div class="category-item" onclick="filterCategory('fotografi')">
+                        <div class="category-icon"><i class="bi bi-camera"></i></div>
+                        <div class="category-label">Fotografi</div>
+                    </div>
+                </div>
+
+                <!-- Near You -->
+                <h5 class="mt-4 mb-3 fw-bold">
+                    <i class="bi bi-geo-alt-fill text-danger"></i> Destinasi Terdekat
+                </h5>
+                <div id="nearDestinations"></div>
+
+                <!-- Featured Packages -->
+                <h5 class="mt-4 mb-3 fw-bold">Paket Wisata & Guide Unggulan</h5>
+                <div id="featuredPackages"></div>
+            </div>
+        </section>
+
+        <!-- Section: Explore -->
+        <section id="explore" class="section">
+            <div class="container">
+                <h4 class="mt-3 mb-3 fw-bold">Eksplor Destinasi</h4>
+                
+                <!-- Filter -->
+                <div class="filter-section">
+                    <div class="filter-chips">
+                        <div class="filter-chip active" onclick="filterExplore('all')">Semua</div>
+                        <div class="filter-chip" onclick="filterExplore('pantai')">Pantai</div>
+                        <div class="filter-chip" onclick="filterExplore('gunung')">Gunung</div>
+                        <div class="filter-chip" onclick="filterExplore('budaya')">Budaya</div>
+                        <div class="filter-chip" onclick="filterExplore('kuliner')">Kuliner</div>
+                    </div>
+                </div>
+
+                <div id="exploreDestinations"></div>
+            </div>
+        </section>
+
+        <!-- Section: Guide -->
+        <section id="guide" class="section">
+            <div class="container">
+                <h4 class="mt-3 mb-3 fw-bold">Tour Guide Tersertifikasi</h4>
+                
+                <!-- Filter -->
+                <div class="filter-section">
+                    <h6 class="mb-2">Filter Guide</h6>
+                    <select class="form-control mb-2" onchange="filterGuides()">
+                        <option>Semua Lokasi</option>
+                        <option>Bali</option>
+                        <option>Yogyakarta</option>
+                        <option>Jakarta</option>
+                        <option>Lombok</option>
+                    </select>
+                    <select class="form-control" onchange="filterGuides()">
+                        <option>Semua Bahasa</option>
+                        <option>Indonesia</option>
+                        <option>Inggris</option>
+                        <option>Mandarin</option>
+                        <option>Jepang</option>
+                    </select>
+                </div>
+
+                <div id="guideList"></div>
+            </div>
+        </section>
+
+        <!-- Section: Tickets -->
+        <section id="tickets" class="section">
+            <div class="container">
+                <h4 class="mt-3 mb-3 fw-bold">Tiket Saya</h4>
+                <div id="myTickets"></div>
+            </div>
+        </section>
+
+        <!-- Section: Itinerary -->
+        <section id="itinerary" class="section">
+            <div class="container">
+                <h4 class="mt-3 mb-3 fw-bold">Jejak Jelajah</h4>
+                
+                <div class="mb-3">
+                    <button class="btn btn-primary-custom me-2" onclick="showItineraryBuilder()">
+                        <i class="bi bi-plus-circle"></i> Buat Rencana Baru
+                    </button>
+                </div>
+
+                <div id="itineraryList"></div>
+                <div id="bookingHistory"></div>
+            </div>
+        </section>
+
+        <!-- Section: Account -->
+        <section id="account" class="section">
+            <div class="container">
+                <h4 class="mt-3 mb-3 fw-bold">Akun Saya</h4>
+                
+                <div class="destination-card">
+                    <div class="destination-content">
+                        <div class="text-center mb-3">
+                            <img src="Foto/fotoku.png" alt="Avatar" style="width: 100px; border-radius: 15%;" class="mb-3">
+                            <h5 class="fw-bold">Miftahul Nur Janah Semester 5</h5>
+                            <p class="text-muted">Jurusan Bisnis Digital</p>
+                        </div>
+                        
+                        <div class="list-group list-group-flush">
+                            <a href="#" class="list-group-item list-group-item-action" onclick="showPage('help')">
+                                <i class="bi bi-question-circle me-2"></i> Bantuan & Dukungan
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action" onclick="showPage('education')">
+                                <i class="bi bi-book me-2"></i> Edukasi Wisata
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action" onclick="showPage('about')">
+                                <i class="bi bi-info-circle me-2"></i> Tentang Kami
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action" onclick="showPage('pengaturan')">
+                                <i class="bi bi-gear me-2"></i> Pengaturan
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action text-danger" onclick="return confirm('Apakah Anda yakin ingin keluar dari aplikasi ini?');">
+                                <i class="bi bi-box-arrow-right me-2"></i> Keluar
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action text-danger"
+                                onclick="logoutApp('login')">
+                                <i class="bi bi-box-arrow-right me-2"></i> Login
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Help -->
+        <section id="help" class="section">
+            <div class="back-button" onclick="showSection('account')">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+            <div class="container mt-5 pt-3">
+                <h4 class="mb-3 fw-bold">Bantuan & Dukungan</h4>
+                
+                <div class="destination-card mb-3">
+                    <div class="destination-content">
+                        <h6 class="fw-bold mb-3"><i class="bi bi-headset text-primary"></i> Hubungi Kami</h6>
+                        <div class="d-grid gap-2">
+                            <a href="https://wa.me/6285600720692" target="_blank" class="btn btn-outline-success">
+                                <i class="bi bi-whatsapp"></i> WhatsApp Support
+                            </a>
+                            <a href="miftahuljannah8852@gmail.com" class="btn btn-outline-primary">
+                                <i class="bi bi-envelope"></i> Email Support
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="destination-card mb-3">
+                    <div class="destination-content">
+                        <h6 class="fw-bold mb-3"><i class="bi bi-share text-primary"></i> Media Sosial</h6>
+                        <div class="d-flex gap-3 justify-content-center">
+                            <a href="https://www.instagram.com/miftahul_nur14?igsh=ZDk4Z2s2aXIzcGlj" class="text-decoration-none" style="font-size: 2rem; color: #E4405F;">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                            <a href="https://www.tiktok.com/@mfthl.14?_r=1&_t=ZS-91YMhpdxmoj" class="text-decoration-none" style="font-size: 2rem; color: #000;">
+                                <i class="bi bi-tiktok"></i>
+                            </a>
+                            <a href="https://www.youtube.com/@miftahuljannah6275" class="text-decoration-none" style="font-size: 2rem; color: #FF0000;">
+                                <i class="bi bi-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="mt-4 mb-3 fw-bold">FAQ - Pertanyaan Umum</h5>
+                
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item mb-2" style="border-radius: 10px; overflow: hidden;">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                Bagaimana cara memesan tiket?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Pilih destinasi yang Anda inginkan, pilih tanggal kunjungan, masukkan jumlah pengunjung, lalu lanjutkan ke pembayaran. E-ticket akan dikirim ke email Anda.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item mb-2" style="border-radius: 10px; overflow: hidden;">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                Bagaimana cara refund tiket?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Refund dapat dilakukan maksimal 3 hari sebelum tanggal kunjungan. Buka menu Tiket Saya, pilih tiket yang ingin direfund, lalu klik tombol "Ajukan Refund".
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item mb-2" style="border-radius: 10px; overflow: hidden;">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                Bagaimana menggunakan E-ticket offline?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                E-ticket tersimpan di aplikasi dan dapat diakses tanpa koneksi internet. Buka menu "Tiket Saya" dan tunjukkan QR code kepada petugas di lokasi wisata.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item mb-2" style="border-radius: 10px; overflow: hidden;">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                Apakah guide terverifikasi?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Ya, semua guide di ExploreNesia telah melalui proses verifikasi dan memiliki sertifikasi resmi. Kami memastikan guide memberikan pengalaman terbaik untuk Anda.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Education -->
+        <section id="education" class="section">
+            <div class="back-button" onclick="showSection('account')">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+            <div class="container mt-5 pt-3">
+                <h4 class="mb-3 fw-bold">Edukasi Wisata</h4>
+                
+                <h5 class="mt-4 mb-3">Artikel Panduan</h5>
+                <div id="articleList"></div>
+
+                <h5 class="mt-4 mb-3">Video Edukasi</h5>
+                <div id="videoList"></div>
+            </div>
+        </section>
+
+        <!-- Section: About -->
+        <section id="about" class="section">
+            <div class="back-button" onclick="showSection('account')">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+            <div class="container mt-5 pt-3">
+                <h4 class="mb-3 fw-bold">Tentang ExploreNesia</h4>
+                
+                <div class="destination-card mb-3">
+                    <div class="destination-content text-center">
+                        <div class="logo-text justify-content-center mb-3" style="font-size: 2rem; color: var(--primary-color);">
+                            <i class="bi bi-compass-fill"></i>
+                            ExploreNesia
+                        </div>
+                        <p class="text-muted">Menjelajahi Keindahan Nusantara Bersama</p>
+                    </div>
+                </div>
+
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/rAx1qYtXI28" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+                <div class="destination-card mt-3">
+                    <div class="destination-content">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-bullseye text-primary"></i> Misi Kami</h5>
+                        <p>ExploreNesia hadir untuk mendukung pariwisata berkelanjutan dengan memberdayakan guide lokal dan penyedia layanan wisata di seluruh nusantara. Kami memberikan mereka akses pasar yang lebih luas dan membantu wisatawan menemukan pengalaman autentik.</p>
+                        
+                        <h5 class="fw-bold mb-3 mt-4"><i class="bi bi-eye text-primary"></i> Visi Kami</h5>
+                        <p>Menjadi platform terpadu terdepan untuk wisata Indonesia yang menghubungkan wisatawan dengan pengalaman lokal yang autentik, aman, dan berkesan.</p>
+                        
+                        <h5 class="fw-bold mb-3 mt-4"><i class="bi bi-star text-warning"></i> Nilai Kami</h5>
+                        <ul>
+                            <li>Pengalaman Lokal yang Autentik</li>
+                            <li>Keamanan dan Kenyamanan Wisatawan</li>
+                            <li>Pemberdayaan Komunitas Lokal</li>
+                            <li>Pariwisata Berkelanjutan</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Section: Pengaturan -->
+        <section id="pengaturan" class="section hidden">
+            <div class="back-button" onclick="showSection('account')">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+
+            <div class="container mt-5 pt-3">
+                <h4 class="fw-bold mb-3">Pengaturan</h4>
+
+                <div class="list-group">
+
+                    <a href="#" class="list-group-item list-group-item-action"
+                        onclick="alert('Fitur masih dalam pengembangan.')">
+                        <i class="bi bi-gear me-2"></i> Pengaturan Umum
+                    </a>
+
+                    <a href="#" class="list-group-item list-group-item-action"
+                        onclick="alert('Mode gelap akan segera tersedia.')">
+                        <i class="bi bi-moon me-2"></i> Mode Gelap
+                    </a>
+
+                    <a href="#" class="list-group-item list-group-item-action text-danger"
+                        onclick="logoutApp()">
+                        <i class="bi bi-box-arrow-right me-2"></i> Keluar
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action"
+                        onclick="showSection('pengaturan')">
+                        <i class="bi bi-gear me-2"></i> Pengaturan
+                    </a>
+                </div>
+            </div>
+        </section>
+        <!-- Section: Login -->
+        <section id="login" class="section">
+             <div class="container mt-5 pt-4">
+
+                <h3 class="fw-bold text-center mb-4">Masuk ke ExploreNesia</h3>
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="loginEmail" class="form-control" placeholder="Masukkan email Anda">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Kata Sandi</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Masukkan kata sandi">
+                </div>
+
+                <button class="btn btn-primary w-100 mt-3" onclick="loginApp()">
+                    Masuk
+                </button>
+
+                <p class="text-center mt-3 text-muted">
+                    Belum punya akun? <a href="#" onclick="showSection('register')">Daftar</a>
+                </p>
+            </div>
+        </section>
+        <!-- Section: Register -->
+        <section id="register" class="section hidden">
+            <div class="container mt-5 pt-4">
+
+                <h3 class="fw-bold text-center mb-4">Daftar Akun Baru</h3>
+
+                <div class="mb-3">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" id="regName" class="form-control" placeholder="Masukkan nama lengkap">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="regEmail" class="form-control" placeholder="Masukkan email">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Kata Sandi</label>
+                    <input type="password" id="regPassword" class="form-control" placeholder="Masukkan kata sandi">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Ulangi Kata Sandi</label>
+                    <input type="password" id="regPassword2" class="form-control" placeholder="Ulangi kata sandi">
+                </div>
+
+                <button class="btn btn-success w-100 mt-3" onclick="registerApp()">
+                    Daftar
+                </button>
+
+                <p class="text-center mt-3 text-muted">
+                    Sudah punya akun? <a href="#" onclick="showSection('login')">Masuk</a>
+                </p>
+
+            </div>
+        </section>
+        <!-- Section: Detail Destination -->
+        <section id="detail-destination" class="section">
+            <div class="back-button" onclick="showSection('explore')">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+            <div id="destinationDetail"></div>
+        </section>
+
+        <!-- Section: Detail Guide -->
+        <section id="detail-guide" class="section">
+            <div class="back-button" onclick="showSection('guide')">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+            <div id="guideDetail"></div>
+        </section>
+
+        <!-- Section: Checkout -->
+        <section id="checkout" class="section">
+            <div class="back-button" onclick="backFromCheckout()">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+            <div class="container mt-5 pt-3">
+                <h4 class="mb-3 fw-bold">Checkout</h4>
+                <div id="checkoutContent"></div>
+            </div>
+        </section>
+
+        <!-- Section: Video Detail -->
+        <section id="video-detail" class="section">
+            <div class="back-button" onclick="showPage('education')">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+            <div class="container mt-5 pt-3">
+                <div id="videoDetailContent"></div>
+            </div>
+        </section>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a class="nav-item active" onclick="showSection('home')" data-section="home">
+                <i class="bi bi-house-fill"></i>
+                <span>Home</span>
+            </a>
+            <a class="nav-item" onclick="showSection('explore')" data-section="explore">
+                <i class="bi bi-search"></i>
+                <span>Eksplor</span>
+            </a>
+            <a class="nav-item" onclick="showSection('guide')" data-section="guide">
+                <i class="bi bi-person-badge"></i>
+                <span>Guide</span>
+            </a>
+            <a class="nav-item" onclick="showSection('itinerary')" data-section="itinerary">
+                <i class="bi bi-map"></i>
+                <span>Jejak</span>
+            </a>
+            <a class="nav-item" onclick="showSection('account')" data-section="account">
+                <i class="bi bi-person-circle"></i>
+                <span>Akun</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Data
+        const destinations = [
+            {
+                id: 1,
+                name: 'Candi Borobudur',
+                category: 'budaya',
+                location: 'Magelang, Jawa Tengah',
+                price: 50000,
+                rating: 4.9,
+                distance: '2.5 km',
+                image: 'Foto/borobudur.png',
+                description: 'Candi Buddha terbesar di dunia dan situs warisan dunia UNESCO. Nikmati sunrise spektakuler dan arsitektur megah dari abad ke-9.',
+                facilities: ['parking', 'toilet', 'restaurant', 'wifi'],
+                openHours: '06:00 - 17:00',
+                featured: true
+            },
+            {
+                id: 2,
+                name: 'Pantai Kuta',
+                category: 'pantai',
+                location: 'Bali',
+                price: 0,
+                rating: 4.7,
+                distance: '5.2 km',
+                image: 'Foto/pantaikuta.png',
+                description: 'Pantai ikonik dengan pasir putih dan sunset menakjubkan. Cocok untuk surfing dan bersantai.',
+                facilities: ['parking', 'toilet', 'restaurant'],
+                openHours: '24 Jam',
+                featured: true
+            },
+            {
+                id: 3,
+                name: 'Gunung Bromo',
+                category: 'gunung',
+                location: 'Probolinggo, Jawa Timur',
+                price: 35000,
+                rating: 4.8,
+                distance: '125 km',
+                image: 'Foto/bromo.png',
+                description: 'Gunung berapi aktif dengan pemandangan sunrise paling memukau di Indonesia. Pengalaman yang tak terlupakan.',
+                facilities: ['parking', 'toilet', 'guide'],
+                openHours: '03:00 - 12:00',
+                featured: true
+            },
+            {
+                id: 4,
+                name: 'Kawah Putih',
+                category: 'gunung',
+                location: 'Bandung, Jawa Barat',
+                price: 28000,
+                rating: 4.6,
+                distance: '50 km',
+                image: 'Foto/kawahputih.png',
+                description: 'Danau kawah dengan air berwarna putih kehijauan yang eksotis. Suhu udara sejuk dan pemandangan mistis.',
+                facilities: ['parking', 'toilet', 'restaurant'],
+                openHours: '07:00 - 17:00'
+            },
+            {
+                id: 5,
+                name: 'Malioboro',
+                category: 'city',
+                location: 'Yogyakarta',
+                price: 0,
+                rating: 4.5,
+                distance: '8 km',
+                image: 'Foto/malioboro.png',
+                description: 'Jantung kota Yogyakarta dengan kuliner khas, batik, dan kerajinan lokal. Pengalaman belanja otentik.',
+                facilities: ['parking', 'toilet', 'restaurant', 'wifi'],
+                openHours: '24 Jam'
+            },
+            {
+                id: 6,
+                name: 'Taman Nasional Komodo',
+                category: 'adventure',
+                location: 'Nusa Tenggara Timur',
+                price: 150000,
+                rating: 5.0,
+                distance: '1250 km',
+                image: 'Foto/tamannasionalkomodo.png',
+                description: 'Habitat asli komodo dan keindahan alam yang menakjubkan. Trekking bersama komodo dan snorkeling di Pink Beach.',
+                facilities: ['parking', 'toilet', 'guide'],
+                openHours: '07:00 - 17:00',
+                featured: true
+            }
+        ];
+
+        const guides = [
+            {
+                id: 1,
+                name: 'Budi Santoso',
+                location: 'Yogyakarta',
+                languages: ['Indonesia', 'Inggris'],
+                speciality: 'Budaya & Sejarah',
+                experience: 8,
+                rating: 4.9,
+                tours: 350,
+                price: 300000,
+                image: 'Foto/budi.png',
+                verified: true,
+                description: 'Guide berpengalaman dengan pengetahuan mendalam tentang sejarah dan budaya Jawa.'
+            },
+            {
+                id: 2,
+                name: 'Sarah Wijaya',
+                location: 'Bali',
+                languages: ['Indonesia', 'Inggris', 'Mandarin'],
+                speciality: 'Adventure & Fotografi',
+                experience: 6,
+                rating: 4.8,
+                tours: 280,
+                price: 350000,
+                image: 'Foto/sarah.png',
+                verified: true,
+                description: 'Spesialis adventure tour dan spot fotografi tersembunyi di Bali.'
+            },
+            {
+                id: 3,
+                name: 'Ahmad Fauzi',
+                location: 'Lombok',
+                languages: ['Indonesia', 'Inggris'],
+                speciality: 'Trekking & Nature',
+                experience: 10,
+                rating: 5.0,
+                tours: 420,
+                price: 280000,
+                image: 'Foto/ahmad.png',
+                verified: true,
+                description: 'Expert dalam trekking Rinjani dan eksplorasi alam Lombok.'
+            }
+        ];
+
+        const articles = [
+            {
+                id: 1,
+                title: 'Tips Wisata Aman di Indonesia',
+                excerpt: 'Panduan lengkap untuk menjaga keamanan selama berwisata di berbagai destinasi Indonesia.',
+                image: 'Foto/3.png',
+                url: 'https://www.malbekasi.com/lifestyle/9-tips-untuk-perjalanan-liburan-aman-dan-nyaman',
+                htmlLink: '<a href="https://www.malbekasi.com/lifestyle/9-tips-untuk-perjalanan-liburan-aman-dan-nyaman" target="_blank" rel="noopener noreferrer">Baca Selengkapnya</a>',
+                content: 'Indonesia adalah negara dengan keindahan alam yang luar biasa. Namun, penting untuk selalu memperhatikan keamanan...'
+            },
+            {
+                id: 2,
+                title: 'Destinasi Hidden Gems 2025',
+                excerpt: 'Temukan destinasi tersembunyi yang belum banyak dikunjungi wisatawan.',
+                image: 'Foto/2.png',
+                url: 'https://blog.agendakota.id/2025/10/21/10-surga-tersembunyi-wisata-hidden-gem-di-indonesia-yang-wajib-dikunjungi/',
+                htmlLink: '<a href="https://blog.agendakota.id/2025/10/21/10-surga-tersembunyi-wisata-hidden-gem-di-indonesia-yang-wajib-dikunjungi/" target="_blank" rel="noopener noreferrer">Baca Selengkapnya</a>',
+                content: 'Jelajahi keindahan Indonesia yang belum terjamah. Dari pantai tersembunyi hingga desa tradisional...'
+            },
+            {
+                id: 3,
+                title: 'Budaya Lokal yang Wajib Diketahui',
+                excerpt: 'Pelajari etika dan budaya lokal sebelum berkunjung ke berbagai daerah.',
+                image: 'https://i0.wp.com/labirutour.com/wp-content/uploads/2021/08/ngabeen.jpg?resize=500%2C329&ssl=1',
+                url: 'https://labirutour.com/blog/5-macam-budaya-di-bali-yang-wajib-diketahui',
+                htmlLink: '<a href="https://labirutour.com/blog/5-macam-budaya-di-bali-yang-wajib-diketahui" target="_blank" rel="noopener noreferrer">Baca Selengkapnya</a>',
+                content: 'Menghormati budaya lokal adalah kunci wisata yang berkesan. Ketahui adat istiadat setiap daerah...'
+            }
+        ];
+
+        const videos = [
+            {
+                id: 1,
+                title: 'Tips Wisata Aman di Indonesia',
+                url: 'https://youtu.be/YkwLc2l8uO8',
+                embedId: 'YkwLc2l8uO8',
+                thumbnail: 'https://img.youtube.com/vi/YkwLc2l8uO8/maxresdefault.jpg',
+                description: 'Pelajari tips dan trik untuk berwisata dengan aman dan nyaman di berbagai destinasi Indonesia.'
+            },
+            {
+                id: 2,
+                title: 'Destinasi Hidden Gems Nusantara',
+                url: 'https://youtu.be/OnLRUQNGWSo',
+                embedId: 'OnLRUQNGWSo',
+                thumbnail: 'https://img.youtube.com/vi/OnLRUQNGWSo/maxresdefault.jpg',
+                description: 'Jelajahi destinasi tersembunyi yang menakjubkan di seluruh nusantara yang belum banyak diketahui.'
+            }
+        ];
+
+        // Onboarding
+        let onboardingStep = 0;
+        const onboardingData = [
+            {
+                icon: 'bi-compass',
+                title: 'Selamat Datang di ExploreNesia',
+                text: 'Jelajahi keindahan Nusantara dengan guide lokal terpercaya'
+            },
+            {
+                icon: 'bi-person-check',
+                title: 'Guide Lokal Terverifikasi',
+                text: 'Semua guide telah melalui proses verifikasi dan sertifikasi resmi'
+            },
+            {
+                icon: 'bi-ticket-perforated',
+                title: 'Pemesanan Mudah & Aman',
+                text: 'Pesan tiket wisata dengan cepat dan gunakan offline'
+            }
+        ];
+
+        function nextOnboarding() {
+            onboardingStep++;
+            if (onboardingStep >= onboardingData.length) {
+                finishOnboarding();
+            } else {
+                updateOnboarding();
+            }
+        }
+
+        function updateOnboarding() {
+            const data = onboardingData[onboardingStep];
+            document.querySelector('.onboarding-icon i').className = `bi ${data.icon}`;
+            document.querySelector('.onboarding-title').textContent = data.title;
+            document.querySelector('.onboarding-text').textContent = data.text;
+            
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === onboardingStep);
+            });
+        }
+
+        function finishOnboarding() {
+            localStorage.setItem('onboarding_completed', 'true');
+            document.getElementById('onboarding').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            loadApp();
+        }
+
+        // App Initialization
+        function loadApp() {
+            loadNearDestinations();
+            loadFeaturedPackages();
+            loadExploreDestinations();
+            loadGuideList();
+            loadMyTickets();
+            loadItinerary();
+            loadArticles();
+            loadVideos();
+            initSearch();
+        }
+
+        // Search Functionality
+        function initSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const suggestions = document.getElementById('searchSuggestions');
+            
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                if (query.length > 0) {
+                    const filtered = destinations.filter(d => 
+                        d.name.toLowerCase().includes(query) || 
+                        d.location.toLowerCase().includes(query) ||
+                        d.category.includes(query)
+                    );
+                    
+                    if (filtered.length > 0) {
+                        suggestions.innerHTML = filtered.map(d => `
+                            <div class="suggestion-item" onclick="viewDestination(${d.id})">
+                                <strong>${d.name}</strong><br>
+                                <small class="text-muted">${d.location}</small>
+                            </div>
+                        `).join('');
+                        suggestions.style.display = 'block';
+                    } else {
+                        suggestions.style.display = 'none';
+                    }
+                } else {
+                    suggestions.style.display = 'none';
+                }
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target)) {
+                    suggestions.style.display = 'none';
+                }
+            });
+        }
+
+        // Load Functions
+        function loadNearDestinations() {
+            const container = document.getElementById('nearDestinations');
+            const near = destinations.slice(0, 3);
+            
+            container.innerHTML = near.map(d => createDestinationCard(d)).join('');
+        }
+
+        function loadFeaturedPackages() {
+            const container = document.getElementById('featuredPackages');
+            const featured = destinations.filter(d => d.featured);
+            
+            container.innerHTML = featured.map(d => createDestinationCard(d)).join('');
+        }
+
+        function loadExploreDestinations(filter = 'all') {
+            const container = document.getElementById('exploreDestinations');
+            const filtered = filter === 'all' ? destinations : destinations.filter(d => d.category === filter);
+            
+            container.innerHTML = filtered.map(d => createDestinationCard(d)).join('');
+        }
+
+        function createDestinationCard(d) {
+            return `
+                <div class="destination-card" onclick="viewDestination(${d.id})">
+                    <img src="${d.image}" alt="${d.name}" class="destination-img">
+                    <div class="destination-content">
+                        <h6 class="destination-title">${d.name}</h6>
+                        <div class="text-muted small">
+                            <i class="bi bi-geo-alt"></i> ${d.location}
+                        </div>
+                        <div class="destination-meta">
+                            <span class="rating">
+                                <i class="bi bi-star-fill"></i> ${d.rating}
+                            </span>
+                            <span class="price-tag">
+                                ${d.price === 0 ? 'Gratis' : 'Rp ' + d.price.toLocaleString()}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadGuideList() {
+            const container = document.getElementById('guideList');
+            container.innerHTML = guides.map(g => `
+                <div class="guide-card" onclick="viewGuide(${g.id})">
+                    <img src="${g.image}" alt="${g.name}" class="guide-avatar">
+                    <div class="guide-info">
+                        <div class="guide-name">
+                            ${g.name}
+                            ${g.verified ? '<span class="guide-badge"><i class="bi bi-patch-check-fill"></i> Verified</span>' : ''}
+                        </div>
+                        <div class="text-muted small mb-1">
+                            <i class="bi bi-geo-alt"></i> ${g.location}
+                        </div>
+                        <div class="text-muted small mb-1">
+                            <i class="bi bi-translate"></i> ${g.languages.join(', ')}
+                        </div>
+                        <div class="text-muted small mb-2">
+                            <i class="bi bi-briefcase"></i> ${g.speciality}
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="rating">
+                                <i class="bi bi-star-fill"></i> ${g.rating} (${g.tours} tours)
+                            </span>
+                            <span class="price-tag">Rp ${g.price.toLocaleString()}/hari</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadMyTickets() {
+            const container = document.getElementById('myTickets');
+            const tickets = JSON.parse(localStorage.getItem('tickets') || '[]');
+            
+            if (tickets.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="bi bi-ticket-perforated"></i></div>
+                        <div class="empty-text">Belum ada tiket</div>
+                        <button class="btn btn-primary-custom" onclick="showSection('explore')">
+                            Jelajahi Destinasi
+                        </button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = tickets.map(t => `
+                    <div class="ticket-card">
+                        <h5 class="fw-bold mb-3">${t.destination}</h5>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <small class="text-muted">Tanggal Kunjungan</small>
+                                <div class="fw-bold">${t.date}</div>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">Jumlah Pengunjung</small>
+                                <div class="fw-bold">${t.quantity} orang</div>
+                            </div>
+                        </div>
+                        <div class="qr-code">
+                            <i class="bi bi-qr-code" style="font-size: 4rem; color: #666;"></i>
+                        </div>
+                        <div class="text-center">
+                            <small class="text-muted">Kode Booking: ${t.bookingCode}</small>
+                        </div>
+                        <div class="alert alert-info mt-3 mb-0">
+                            <i class="bi bi-info-circle"></i> Tunjukkan QR code ini di lokasi wisata
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function loadItinerary() {
+            const container = document.getElementById('itineraryList');
+            const itineraries = JSON.parse(localStorage.getItem('itineraries') || '[]');
+            
+            if (itineraries.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="bi bi-map"></i></div>
+                        <div class="empty-text">Belum ada rencana perjalanan</div>
+                        <p class="text-muted">Ayo jelajahi Indonesia hari ini!</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = itineraries.map(it => `
+                    <div class="itinerary-day">
+                        <h6 class="fw-bold mb-3">${it.name}</h6>
+                        <div class="text-muted small mb-3">${it.duration}</div>
+                        ${it.activities.map(act => `
+                            <div class="activity-item">
+                                <div>
+                                    <strong>${act.name}</strong><br>
+                                    <small class="text-muted">${act.time}</small>
+                                </div>
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </div>
+                        `).join('')}
+                    </div>
+                `).join('');
+            }
+            
+            loadBookingHistory();
+        }
+
+        function loadBookingHistory() {
+            const container = document.getElementById('bookingHistory');
+            const bookings = JSON.parse(localStorage.getItem('booking_history') || '[]');
+            
+            if (bookings.length > 0) {
+                container.innerHTML = `
+                    <h5 class="mt-4 mb-3 fw-bold">Riwayat Pemesanan</h5>
+                    ${bookings.map(b => `
+                        <div class="destination-card">
+                            <div class="destination-content">
+                                <h6 class="fw-bold">${b.destination}</h6>
+                                <div class="text-muted small mb-2">
+                                    <i class="bi bi-calendar"></i> ${b.date}
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-muted small">${b.quantity} orang</span>
+                                    <span class="price-tag">Rp ${b.total.toLocaleString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+            }
+        }
+
+        function loadArticles() {
+            const container = document.getElementById('articleList');
+            container.innerHTML = articles.map(a => `
+                <div class="article-card" onclick="viewArticle(${a.id})">
+                    <img src="${a.image}" alt="${a.title}" class="article-img">
+                    <div class="article-content">
+                        <h6 class="fw-bold mb-2">${a.title}</h6>
+                        <p class="text-muted small mb-0">${a.excerpt}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadVideos() {
+            const container = document.getElementById('videoList');
+            container.innerHTML = videos.map(v => `
+                <div class="video-card" onclick="viewVideo(${v.id})">
+                    <div style="position: relative;">
+                        <img src="${v.thumbnail}" alt="${v.title}" class="video-thumbnail">
+                        <div class="play-button">
+                            <i class="bi bi-play-fill"></i>
+                        </div>
+                    </div>
+                    <div class="article-content">
+                        <h6 class="fw-bold mb-2">${v.title}</h6>
+                        <p class="text-muted small mb-0">${v.description}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+function loginApp() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass = document.getElementById('loginPassword').value.trim();
+
+    if (!email || !pass) {
+        alert("Mohon isi email dan kata sandi terlebih dahulu.");
+        return;
+    }
+
+    // Akun contoh (bebas kamu ganti)
+    const validEmail = "user@mail.com";
+    const validPass = "123456";
+
+    if (email === validEmail && pass === validPass) {
+        alert("Login berhasil! Selamat datang di ExploreNesia.");
+        showSection('account');
+    } else {
+        alert("Login gagal! Email atau kata sandi salah.");
+    }
+}
+function logoutApp() {
+    alert("Anda telah keluar dari aplikasi.");
+    showSection('login');   // ⬅ otomatis kembali ke halaman login
+}
+function registerApp() {
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const pass = document.getElementById('regPassword').value.trim();
+    const pass2 = document.getElementById('regPassword2').value.trim();
+
+    if (!name || !email || !pass || !pass2) {
+        alert("Semua kolom wajib diisi!");
+        return;
+    }
+
+    if (pass !== pass2) {
+        alert("Kata sandi tidak cocok, silakan periksa kembali.");
+        return;
+    }
+
+    alert("Pendaftaran berhasil! Silakan login dengan akun Anda.");
+    showSection('login');
+}
+
+
+        // View Detail Functions
+        function viewDestination(id) {
+            const dest = destinations.find(d => d.id === id);
+            if (!dest) return;
+            
+            const detail = document.getElementById('destinationDetail');
+            detail.innerHTML = `
+                <img src="${dest.image}" alt="${dest.name}" class="detail-hero">
+                <div class="detail-content">
+                    <h4 class="fw-bold mb-2">${dest.name}</h4>
+                    <div class="text-muted mb-3">
+                        <i class="bi bi-geo-alt"></i> ${dest.location}
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="rating">
+                            <i class="bi bi-star-fill"></i> ${dest.rating} Rating
+                        </span>
+                        <span class="price-tag" style="font-size: 1.3rem;">
+                            ${dest.price === 0 ? 'Gratis' : 'Rp ' + dest.price.toLocaleString()}
+                        </span>
+                    </div>
+                    
+                    <div class="facility-icons mb-4">
+                        ${dest.facilities.includes('parking') ? '<div class="facility-item"><i class="bi bi-p-square"></i><small>Parkir</small></div>' : ''}
+                        ${dest.facilities.includes('toilet') ? '<div class="facility-item"><i class="bi bi-door-closed"></i><small>Toilet</small></div>' : ''}
+                        ${dest.facilities.includes('restaurant') ? '<div class="facility-item"><i class="bi bi-cup-hot"></i><small>Restoran</small></div>' : ''}
+                        ${dest.facilities.includes('wifi') ? '<div class="facility-item"><i class="bi bi-wifi"></i><small>WiFi</small></div>' : ''}
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-2">Jam Operasional</h6>
+                        <div class="text-muted">
+                            <i class="bi bi-clock"></i> ${dest.openHours}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-2">Deskripsi</h6>
+                        <p>${dest.description}</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-2">Lokasi</h6>
+                        <div class="alert alert-light">
+                            <i class="bi bi-map"></i> ${dest.location}
+                            <br>
+                            <small class="text-muted">Jarak: ${dest.distance} dari lokasi Anda</small>
+                        </div>
+                        <a href="https://www.google.com/maps/search/${encodeURIComponent(dest.name + ' ' + dest.location)}" target="_blank" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-geo-alt"></i> Buka di Maps
+                        </a>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-2">Review Pengunjung</h6>
+                        <div class="destination-card mb-2">
+                            <div class="destination-content">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <strong>Andi Wijaya</strong>
+                                    <span class="rating"><i class="bi bi-star-fill"></i> 5.0</span>
+                                </div>
+                                <p class="small mb-0">Tempat yang luar biasa! Pemandangannya sangat indah dan guide yang membantu sangat ramah.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary-custom btn-lg" onclick="bookTicket(${dest.id})">
+                            <i class="bi bi-ticket-perforated"></i> Pesan Tiket
+                        </button>
+                        <button class="btn btn-secondary-custom btn-lg" onclick="showSection('guide')">
+                            <i class="bi bi-person-badge"></i> Sewa Guide
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            showSection('detail-destination');
+        }
+
+        function viewGuide(id) {
+            const guide = guides.find(g => g.id === id);
+            if (!guide) return;
+            
+            const detail = document.getElementById('guideDetail');
+            detail.innerHTML = `
+                <div class="container mt-5 pt-3">
+                    <div class="text-center mb-4">
+                        <img src="${guide.image}" alt="${guide.name}" style="width: 150px; height: 150px; border-radius: 50%; border: 4px solid var(--primary-color);" class="mb-3">
+                        <h4 class="fw-bold">${guide.name}</h4>
+                        ${guide.verified ? '<span class="guide-badge"><i class="bi bi-patch-check-fill"></i> Guide Terverifikasi</span>' : ''}
+                    </div>
+                    
+                    <div class="destination-card mb-3">
+                        <div class="destination-content">
+                            <div class="row text-center mb-3">
+                                <div class="col-4">
+                                    <div class="rating" style="font-size: 1.5rem;">${guide.rating}</div>
+                                    <small class="text-muted">Rating</small>
+                                </div>
+                                <div class="col-4">
+                                    <div class="fw-bold" style="font-size: 1.5rem;">${guide.tours}</div>
+                                    <small class="text-muted">Tours</small>
+                                </div>
+                                <div class="col-4">
+                                    <div class="fw-bold" style="font-size: 1.5rem;">${guide.experience}</div>
+                                    <small class="text-muted">Tahun</small>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6 class="fw-bold mb-2"><i class="bi bi-geo-alt text-primary"></i> Lokasi</h6>
+                                <p class="mb-0">${guide.location}</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6 class="fw-bold mb-2"><i class="bi bi-translate text-primary"></i> Bahasa</h6>
+                                <p class="mb-0">${guide.languages.join(', ')}</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6 class="fw-bold mb-2"><i class="bi bi-briefcase text-primary"></i> Spesialisasi</h6>
+                                <p class="mb-0">${guide.speciality}</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6 class="fw-bold mb-2">Tentang Guide</h6>
+                                <p>${guide.description}</p>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <h5 class="fw-bold mb-2">Rp ${guide.price.toLocaleString()}</h5>
+                                <small>Per hari (8 jam)</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 mb-4">
+                        <a href="https://wa.me/6285600720692?text=Halo%20${guide.name},%20saya%20tertarik%20dengan%20jasa%20tour%20guide%20Anda" target="_blank" class="btn btn-success btn-lg">
+                            <i class="bi bi-whatsapp"></i> Chat via WhatsApp
+                        </a>
+                        <button class="btn btn-primary-custom btn-lg" onclick="bookGuide(${guide.id})">
+                            <i class="bi bi-calendar-check"></i> Buat Booking
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            showSection('detail-guide');
+        }
+
+        function viewArticle(id) {
+            const article = articles.find(a => a.id === id);
+            if (!article) return;
+            
+            alert(`Artikel: ${article.title}\n\n${article.content}`);
+        }
+
+        function viewVideo(id) {
+            const video = videos.find(v => v.id === id);
+            if (!video) return;
+            
+            const content = document.getElementById('videoDetailContent');
+            content.innerHTML = `
+                <h4 class="fw-bold mb-3">${video.title}</h4>
+                
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/${video.embedId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                
+                <div class="destination-card mt-3">
+                    <div class="destination-content">
+                        <h6 class="fw-bold mb-2">Deskripsi</h6>
+                        <p>${video.description}</p>
+                        
+                        <a href="${video.url}" target="_blank" class="btn btn-danger btn-lg w-100">
+                            <i class="bi bi-youtube"></i> Tonton di YouTube
+                        </a>
+                    </div>
+                </div>
+                
+                <h5 class="mt-4 mb-3 fw-bold">Video Lainnya</h5>
+                ${videos.filter(v => v.id !== id).map(v => `
+                    <div class="video-card" onclick="viewVideo(${v.id})">
+                        <div style="position: relative;">
+                            <img src="${v.thumbnail}" alt="${v.title}" class="video-thumbnail">
+                            <div class="play-button">
+                                <i class="bi bi-play-fill"></i>
+                            </div>
+                        </div>
+                        <div class="article-content">
+                            <h6 class="fw-bold mb-2">${v.title}</h6>
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+            
+            showPage('video-detail');
+        }
+
+        // Booking Functions
+        function bookTicket(destId) {
+            const dest = destinations.find(d => d.id === destId);
+            if (!dest) return;
+            
+            const content = document.getElementById('checkoutContent');
+            content.innerHTML = `
+                <div class="destination-card mb-3">
+                    <img src="${dest.image}" alt="${dest.name}" style="width: 100%; height: 150px; object-fit: cover;">
+                    <div class="destination-content">
+                        <h5 class="fw-bold">${dest.name}</h5>
+                        <p class="text-muted small mb-0">${dest.location}</p>
+                    </div>
+                </div>
+                
+                <div class="destination-card mb-3">
+                    <div class="destination-content">
+                        <h6 class="fw-bold mb-3">Detail Pemesanan</h6>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Tanggal Kunjungan</label>
+                            <input type="date" class="form-control" id="visitDate" min="${new Date().toISOString().split('T')[0]}">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Jumlah Pengunjung</label>
+                            <input type="number" class="form-control" id="visitorCount" value="1" min="1" onchange="updateCheckoutTotal(${dest.price})">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Nama Pemesan</label>
+                            <input type="text" class="form-control" id="bookerName" placeholder="Nama lengkap">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="bookerEmail" placeholder="email@example.com">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">No. Telepon</label>
+                            <input type="tel" class="form-control" id="bookerPhone" placeholder="08xxxxxxxxxx">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="checkout-summary">
+                    <h6 class="fw-bold mb-3">Ringkasan Pembayaran</h6>
+                    <div class="summary-row">
+                        <span>Harga Tiket</span>
+                        <span>Rp ${dest.price.toLocaleString()}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Jumlah</span>
+                        <span id="quantityDisplay">1</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Biaya Layanan</span>
+                        <span>Rp 5.000</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="totalPrice">Rp ${(dest.price + 5000).toLocaleString()}</span>
+                    </div>
+                </div>
+                
+                <div class="destination-card mb-3">
+                    <div class="destination-content">
+                        <h6 class="fw-bold mb-3">Metode Pembayaran</h6>
+                        <select class="form-control" id="paymentMethod">
+                            <option>E-Wallet (GoPay, OVO, DANA)</option>
+                            <option>Transfer Bank</option>
+                            <option>Kartu Kredit/Debit</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary-custom btn-lg w-100 mb-4" onclick="processPayment(${destId})">
+                    <i class="bi bi-credit-card"></i> Bayar Sekarang
+                </button>
+            `;
+            
+            showSection('checkout');
+        }
+
+        function updateCheckoutTotal(basePrice) {
+            const quantity = parseInt(document.getElementById('visitorCount').value) || 1;
+            const serviceFee = 5000;
+            const total = (basePrice * quantity) + serviceFee;
+            
+            document.getElementById('quantityDisplay').textContent = quantity;
+            document.getElementById('totalPrice').textContent = 'Rp ' + total.toLocaleString();
+        }
+
+        function processPayment(destId) {
+            const dest = destinations.find(d => d.id === destId);
+            const date = document.getElementById('visitDate').value;
+            const quantity = parseInt(document.getElementById('visitorCount').value);
+            const name = document.getElementById('bookerName').value;
+            const email = document.getElementById('bookerEmail').value;
+            const phone = document.getElementById('bookerPhone').value;
+            
+            if (!date || !name || !email || !phone) {
+                alert('Mohon lengkapi semua data pemesanan');
+                return;
+            }
+            
+            // Show loading
+            const content = document.getElementById('checkoutContent');
+            content.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p class="text-muted">Memproses pembayaran...</p>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                // Save ticket
+                const tickets = JSON.parse(localStorage.getItem('tickets') || '[]');
+                const bookingCode = 'EXP' + Date.now().toString().slice(-8);
+                
+                tickets.push({
+                    id: tickets.length + 1,
+                    destination: dest.name,
+                    date: date,
+                    quantity: quantity,
+                    bookingCode: bookingCode,
+                    total: (dest.price * quantity) + 5000
+                });
+                
+                localStorage.setItem('tickets', JSON.stringify(tickets));
+                
+                // Save to history
+                const history = JSON.parse(localStorage.getItem('booking_history') || '[]');
+                history.push({
+                    destination: dest.name,
+                    date: date,
+                    quantity: quantity,
+                    total: (dest.price * quantity) + 5000
+                });
+                localStorage.setItem('booking_history', JSON.stringify(history));
+                
+                // Show success
+                content.innerHTML = `
+                    <div class="success-animation">
+                        <div class="success-icon">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Pembayaran Berhasil!</h4>
+                        <p class="text-muted mb-4">E-ticket telah dikirim ke email Anda dan tersimpan di menu "Tiket Saya"</p>
+                        
+                        <div class="alert alert-success mb-4">
+                            <strong>Kode Booking:</strong> ${bookingCode}
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary-custom btn-lg" onclick="showSection('tickets'); loadMyTickets();">
+                                <i class="bi bi-ticket-perforated"></i> Lihat Tiket Saya
+                            </button>
+                            <button class="btn btn-outline-primary btn-lg" onclick="showSection('home')">
+                                <i class="bi bi-house"></i> Kembali ke Home
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }, 2000);
+        }
+
+        function bookGuide(guideId) {
+            alert('Fitur booking guide akan segera hadir! Silakan chat guide melalui WhatsApp untuk booking langsung.');
+        }
+
+        function backFromCheckout() {
+            window.history.back();
+        }
+
+        // Filter Functions
+        function filterCategory(category) {
+            showSection('explore');
+            loadExploreDestinations(category);
+            
+            // Update active chip
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+        }
+
+        function filterExplore(category) {
+            loadExploreDestinations(category);
+            
+            // Update active chip
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+                if (chip.textContent.toLowerCase().includes(category) || (category === 'all' && chip.textContent === 'Semua')) {
+                    chip.classList.add('active');
+                }
+            });
+        }
+
+        function filterGuides() {
+            // Implementation for guide filtering
+            console.log('Filter guides');
+        }
+
+        // Itinerary Functions
+        function showItineraryBuilder() {
+            alert('Fitur Itinerary Builder akan segera hadir! Anda dapat merencanakan perjalanan dengan drag & drop aktivitas.');
+        }
+
+        // Navigation Functions
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update bottom nav
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.section === sectionId) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function showPage(pageId) {
+            showSection(pageId);
+        }
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    const CACHE_NAME = 'explorenesia-v1';
+                    const urlsToCache = [
+                        '/',
+                        '/index.html'
+                    ];
+
+                    self.addEventListener('install', event => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then(cache => cache.addAll(urlsToCache))
+                        );
+                    });
+
+                    self.addEventListener('fetch', event => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then(response => response || fetch(event.request))
+                        );
+                    });
+                `;
+                
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed'));
+            });
+        }
+
+        // Manifest
+        const manifestData = {
+            name: 'ExploreNesia',
+            short_name: 'ExploreNesia',
+            description: 'Platform pemesanan tour guide dan tiket wisata Indonesia',
+            start_url: '/',
+            display: 'standalone',
+            background_color: '#239BA7',
+            theme_color: '#239BA7',
+            icons: [
+                {
+                    src: 'icon/logo-192.png',
+                    sizes: '192x192',
+                    type: 'image/png'
+                },
+                {
+                    src: 'icon/logo-512.png',
+                    sizes: '512x512',
+                    type: 'image/png'
+                }
+            ]
+        };
+
+        const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+        const manifestUrl = URL.createObjectURL(manifestBlob);
+        document.getElementById('manifest-placeholder').setAttribute('href', manifestUrl);
+
+        // Initialize App
+        window.addEventListener('load', () => {
+            if (localStorage.getItem('onboarding_completed')) {
+                document.getElementById('onboarding').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+                loadApp();
+            }
+        });
+
+        // Haptic Feedback (jika didukung)
+        function hapticFeedback() {
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+        }
+
+        // Add haptic to all clickable elements
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.nav-item, .category-item, .destination-card, .btn')) {
+                hapticFeedback();
+            }
+        });
+    </script>
+</body>
+</html>
